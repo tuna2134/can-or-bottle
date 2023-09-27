@@ -16,7 +16,6 @@ class CNNModel(nn.Module):
         # out: 26, 13
         self.conv2 = nn.Conv2d(16, 32, 3, padding=0)
         # out: 11, 5
-
         self.conv3 = nn.Conv2d(32, 64, 3, padding=0)
         # out: 3, 1
         self.maxpool = nn.MaxPool2d(2, stride=2)
@@ -31,6 +30,7 @@ class CNNModel(nn.Module):
         out = self.conv2(out)
         out = self.relu(out)
         out = self.maxpool(out)
+        out = self.dropout(out)
         out = self.conv3(out)
         out = self.relu(out)
         out = self.maxpool(out)
@@ -52,7 +52,7 @@ criterion = nn.CrossEntropyLoss()
 optimizer = optim.SGD(net.parameters(), lr=0.0001, momentum=0.9, weight_decay=0.005)
 
 
-num_epochs = 20
+num_epochs = 25
 for epoch in range(num_epochs):
     for batch_idx, (data, target) in enumerate(trainloader):
         optimizer.zero_grad()
