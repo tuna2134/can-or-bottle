@@ -13,12 +13,18 @@ torchaudio = {version = "^2.0.2+cpu", source = "torch"}
 playwright = "^1.38.0"
 beautifulsoup4 = "^4.12.2"
 pillow = "^10.0.1"
+onnx = "^1.14.1"
+onnxruntime = "^1.16.0"
 
 
 [[tool.poetry.source]]
 name = "torch"
 url = "https://download.pytorch.org/whl/cpu"
 priority = "supplemental"
+
+
+[tool.poetry.group.dev.dependencies]
+black = "^23.9.1"
 
 [build-system]
 requires = ["poetry-core"]

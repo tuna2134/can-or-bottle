@@ -8,7 +8,6 @@ import torch.nn.functional as F
 
 
 class CNNModel(nn.Module):
-
     def __init__(self):
         super(CNNModel, self).__init__()
         self.relu = nn.ReLU()
@@ -22,7 +21,7 @@ class CNNModel(nn.Module):
         self.dropout = nn.Dropout(0.25)
         self.fc1 = nn.Linear(1 * 1 * 64, 256)
         self.fc2 = nn.Linear(256, 10)
-    
+
     def forward(self, x):
         out = self.conv1(x)
         out = self.relu(out)
@@ -40,10 +39,20 @@ class CNNModel(nn.Module):
         out = self.fc2(out)
         return out
 
-trans = torchvision.transforms.Compose([torchvision.transforms.ToTensor(),torchvision.transforms.Normalize((0.5,), (0.5,))])
-trainset = torchvision.datasets.MNIST(root = 'path', train = True, download = True, transform = trans)
 
-trainloader = torch.utils.data.DataLoader(trainset, batch_size = 100, shuffle = True, num_workers = 2)
+trans = torchvision.transforms.Compose(
+    [
+        torchvision.transforms.ToTensor(),
+        torchvision.transforms.Normalize((0.5,), (0.5,)),
+    ]
+)
+trainset = torchvision.datasets.MNIST(
+    root="path", train=True, download=True, transform=trans
+)
+
+trainloader = torch.utils.data.DataLoader(
+    trainset, batch_size=100, shuffle=True, num_workers=2
+)
 
 device = torch.device("cpu")
 net = CNNModel()
@@ -61,4 +70,6 @@ for epoch in range(num_epochs):
         loss.backward()
         optimizer.step()
         if batch_idx % 100 == 0:
-            print(f'Epoch [{epoch+1}/{num_epochs}] Batch [{batch_idx}/{len(trainloader)}] Loss: {loss.item()}')
+            print(
+                f"Epoch [{epoch+1}/{num_epochs}] Batch [{batch_idx}/{len(trainloader)}] Loss: {loss.item()}"
+            )
