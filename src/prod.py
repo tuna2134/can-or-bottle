@@ -3,10 +3,8 @@ from torch.utils.data import Dataset
 import torchvision
 
 from PIL import Image
-import numpy as np
 import torch.optim as optim
 import torch.nn as nn
-import torch.nn.functional as F
 from pathlib import Path
 
 

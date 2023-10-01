@@ -7,7 +7,7 @@ sess = InferenceSession("model.onnx", providers=["CPUExecutionProvider"])
 input_name = sess.get_inputs()[0].name
 output_name = sess.get_outputs()[0].name
 
-img = Image.open("./coke.jpeg")
+img = Image.open("./tea.webp")
 img = img.resize((224, 224))
 img = img.convert("RGB")
 img = np.array(img, dtype=np.float32)
