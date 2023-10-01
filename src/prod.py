@@ -81,7 +81,7 @@ trans = torchvision.transforms.Compose(
 # trainset = torchvision.datasets.MNIST(root = 'path', train = True, download = True, transform = trans)
 trainset = MyDataset(trans)
 
-trainloader = torch.utils.data.DataLoader(trainset, batch_size=12, shuffle=True)
+trainloader = torch.utils.data.DataLoader(trainset, batch_size=64, shuffle=True)
 
 device = torch.device("cpu")
 net = CNNModel()
@@ -90,7 +90,7 @@ criterion = nn.BCEWithLogitsLoss()
 # optimizer = optim.SGD(net.parameters(), lr=0.0001, momentum=0.9, weight_decay=0.005)
 optimizer = optim.Adam(net.parameters(), lr=0.001, weight_decay=0.0001)
 
-num_epochs = 20
+num_epochs = 50
 for epoch in range(num_epochs):
     for batch_idx, (data, target) in enumerate(trainloader):
         optimizer.zero_grad()
@@ -103,7 +103,7 @@ for epoch in range(num_epochs):
         correct = (predicted == target).sum().item()
         accuracy = correct / data.size(0)
 
-        if batch_idx % 12 == 0:
+        if batch_idx % 64 == 0:
             print(
                 f"Epoch [{epoch+1}/{num_epochs}] Batch [{batch_idx}/{len(trainloader)}] Loss: {loss.item()} Accuracy: {accuracy:.4f}"
             )
