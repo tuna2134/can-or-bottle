@@ -22,8 +22,11 @@ result = sess.run(
     },
 )
 
+print(result[0][0][0])
+"""
 if result[0][0].argmax() == 0:
     print("缶ジュース")
 else:
     print("ペットボトル")
 print(result[0][0])
+"""

@@ -49,7 +49,9 @@ class CNNModel(nn.Module):
         self.maxpool = nn.MaxPool2d(2, stride=2)
         self.dropout = nn.Dropout(0.25)
         self.fc1 = nn.Linear(26 * 26 * 64, 128)
-        self.fc2 = nn.Linear(128, 2)
+        self.fc2 = nn.Linear(128, 1)
+        # self.sigmoid = nn.Sigmoid()
+        # self.fc3 = nn.Linear(2, 1)
 
     def forward(self, x):
         out = self.conv1(x)
@@ -66,6 +68,8 @@ class CNNModel(nn.Module):
         out = self.fc1(out)
         out = self.relu(out)
         out = self.fc2(out)
+        # out = self.sigmoid(out)
+        #  out = out.view(-1, 1)
         return out
 
 
@@ -84,7 +88,7 @@ trainloader = torch.utils.data.DataLoader(trainset, batch_size=12, shuffle=True)
 device = torch.device("cpu")
 net = CNNModel()
 net = net.to(device)
-criterion = nn.CrossEntropyLoss()
+criterion = nn.BCEWithLogitsLoss()
 # optimizer = optim.SGD(net.parameters(), lr=0.0001, momentum=0.9, weight_decay=0.005)
 optimizer = optim.Adam(net.parameters(), lr=0.001, weight_decay=0.0001)
 
@@ -93,11 +97,10 @@ for epoch in range(num_epochs):
     for batch_idx, (data, target) in enumerate(trainloader):
         optimizer.zero_grad()
         output = net(data)
+        target = target.float().unsqueeze(1)
         loss = criterion(output, target)
         loss.backward()
         optimizer.step()
-        # predict
-        # preds = output.argmax(dim=1, keepdim=True)
         _, predicted = torch.max(output, 1)
         correct = (predicted == target).sum().item()
         accuracy = correct / data.size(0)
